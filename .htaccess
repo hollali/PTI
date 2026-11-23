@@ -1,0 +1,23 @@
+RewriteEngine On
+
+# Serve missing uploads from database fallback
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^public/uploads/(.*)$ serve_file.php?path=public/uploads/$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?page=$1 [QSA,L]
+
+
+
+<FilesMatch "\.(sql|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "^config/">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+ErrorDocument 404 /404.php
